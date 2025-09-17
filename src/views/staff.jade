@@ -17,7 +17,7 @@ block content
               each u in list
                 li.list-group-item.d-flex.justify-content-between.align-items-center
                   a(href='/staff/' + u.id)= u.fullName || ((u.first_name || '') + ' ' + (u.last_name || '')).trim()
-                  span.badge.bg-light.text-dark #{u.username || ''}
+                  span.badge.text-dark(class={ 'bg-danger': !u.active, 'bg-light': u.active }) #{u.username || ''}
             else
               li.list-group-item.text-muted Geen gebruikers gevonden
 
