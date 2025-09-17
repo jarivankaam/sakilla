@@ -1,0 +1,90 @@
+extends layout
+
+block content
+  .container
+    if error
+      .alert.alert-danger(role="alert")= error
+
+    .row.g-4
+      // Sidebar – lijst
+      .col-12.col-lg-3
+        .card
+          .card-header.bg-secondary.text-white
+            strong Huidige Medewerkers
+          ul.list-group.list-group-flush
+            - const list = Array.isArray(staff) ? staff : (staff ? [staff] : []);
+            if list.length
+              each u in list
+                li.list-group-item.d-flex.justify-content-between.align-items-center
+                  a(href='/staff/' + u.id)= u.fullName || ((u.first_name || '') + ' ' + (u.last_name || '')).trim()
+                  span.badge.bg-light.text-dark #{u.username || ''}
+            else
+              li.list-group-item.text-muted Geen gebruikers gevonden
+
+      // Formulier – create/edit
+      .col-12.col-lg-6
+        .card
+          .card-header.d-flex.justify-content-between.align-items-center
+            if selected
+              - const selName = selected.fullName || ((selected.first_name || '') + ' ' + (selected.last_name || '')).trim();
+              h5.mb-0 Bewerken: #{selName}
+            else
+              h5.mb-0 Nieuwe medewerker
+          .card-body
+            - const isEdit = !!(selected && selected.id);
+            - const actionUrl = isEdit ? ('/staff/' + selected.id + '/update') : '/staff';
+            form(method='POST', action=actionUrl)
+              .row.g-3
+                .col-md-6
+                  label.form-label(for='first_name') Voornaam *
+                  input.form-control(type='text', id='first_name', name='first_name', required, value=(selected && selected.first_name) || '')
+                .col-md-6
+                  label.form-label(for='last_name') Achternaam *
+                  input.form-control(type='text', id='last_name', name='last_name', required, value=(selected && selected.last_name) || '')
+                .col-md-6
+                  label.form-label(for='email') E-mail *
+                  input.form-control(type='email', id='email', name='email', required, value=(selected && selected.email) || '')
+                .col-md-6
+                  label.form-label(for='username') Gebruikersnaam *
+                  input.form-control(type='text', id='username', name='username', required, value=(selected && selected.username) || '')
+                .col-md-6
+                  label.form-label(for='password') Wachtwoord
+                  input.form-control(type='password', id='password', name='password', placeholder=(isEdit ? 'Leeg laten = ongewijzigd' : 'Min. 8 tekens'))
+                .col-md-6
+                  .form-check.mt-4
+                    //- Jade boolean attrs:
+                    input.form-check-input(type='checkbox', id='active', name='active', checked=(selected ? !!selected.active : false))
+                    label.form-check-label(for='active') Actief
+                .col-md-6
+                  label.form-label(for='store_id') Store ID
+                  input.form-control(type='number', id='store_id', name='store_id', min='0', value=(selected && selected.store_id!=null ? selected.store_id : ''))
+                .col-md-6
+                  label.form-label(for='address_id') Address ID
+                  input.form-control(type='number', id='address_id', name='address_id', min='0', value=(selected && selected.address_id!=null ? selected.address_id : ''))
+                .col-12
+                  label.form-label(for='picture') Profielfoto URL
+                  input.form-control(type='url', id='picture', name='picture', value=(selected && selected.picture) || '')
+
+              .d-flex.gap-2.mt-3
+                if isEdit
+                  button.btn.btn-primary(type='submit') Wijzigingen opslaan
+                  a.btn.btn-outline-secondary(href='/staff') Annuleren
+                else
+                  button.btn.btn-success(type='submit') Aanmaken
+                  button.btn.btn-outline-secondary(type='reset') Reset
+
+      // Acties / Verwijderen
+      .col-12.col-lg-3
+        .card
+          .card-header.bg-secondary.text-white
+            strong Acties
+          .card-body
+            ul.mb-3
+              li Maak medewerker aan (vul formulier in en klik "Aanmaken")
+              li Bewerk medewerker (klik naam links, pas aan en "Opslaan")
+              li Verwijder medewerker (selecteer en verwijder hieronder)
+            if selected
+              form(method='POST', action='/staff/' + selected.id + '/delete', onsubmit="return confirm('Weet je zeker dat je deze medewerker wilt verwijderen?');")
+                button.btn.btn-danger(type='submit') Verwijder medewerker
+            else
+              button.btn.btn-danger(disabled) Verwijderen (selecteer eerst iemand)

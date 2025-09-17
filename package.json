@@ -1,0 +1,30 @@
+{
+  "name": "express",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "watch:server": "nodemon --watch src --ext js,ts,json --exec node ./bin/www",
+    "watch:client": "browser-sync start --proxy localhost:3000 --files=**/*  --ignore=node_modules --reload-delay 100 --no-ui --no-inject-changes  --port 3001",
+    "dev": "concurrently -k -n server,bs \"npm:watch:server\" \"npm:watch:client\"",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "mysql2": "^3.14.4",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "concurrently": "^9.2.1",
+    "jest": "^30.1.3",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  }
+}

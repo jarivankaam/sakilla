@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  - const list = Array.isArray(users) ? users : (users ? [users] : [])
+  ul
+    if list.length
+      each u in list
+        li= u.displayName
+    else
+      li Geen gebruikers gevonden

@@ -1,0 +1,97 @@
+extends layout
+
+block content
+    .container
+        ul
+            li User (klant)
+                ul
+                    li Epic U1 – Films bekijken
+                        ul
+                            li Story: Als klant wil ik films kunnen opzoeken en filteren op categorie, taal of rating, zodat ik makkelijker iets kan vinden.
+                                ul
+                                    li Functies/Acties: zoeken
+                                    li Functies/Acties: filteren
+                                    li Functies/Acties: detailpagina bekijken
+                            li Story: Als klant wil ik kunnen zien in welke store een film beschikbaar is.
+                                ul
+                                    li Functies/Acties: beschikbaarheid per store tonen
+
+                    li Epic U2 – Profiel beheren
+                        ul
+                            li Story: Als klant wil ik mijn gegevens (naam, e-mail) en adres kunnen aanpassen.
+                                ul
+                                    li Functies/Acties: profielpagina met update-knop
+
+                    li Epic U3 – Huren en terugbrengen
+                        ul
+                            li Story: Als klant wil ik een film kunnen huren bij een store zodat ik deze kan ophalen.
+                                ul
+                                    li Functies/Acties: huur-knop → aanmaken rental
+                            li Story: Als klant wil ik mijn gehuurde films en geschiedenis kunnen zien.
+                                ul
+                                    li Functies/Acties: overzicht “mijn rentals”
+
+                    li Epic U4 – Betalingen
+                        ul
+                            li Story: Als klant wil ik online openstaande kosten kunnen betalen.
+                                ul
+                                    li Functies/Acties: betaalfunctie
+                                    li Functies/Acties: factuur downloaden
+
+            li Staff (medewerkers)
+                ul
+                    li Epic S1 – Klantenbeheer
+                        ul
+                            li Story: Als medewerker wil ik klanten kunnen opzoeken en eventueel nieuwe klanten toevoegen.
+                                ul
+                                    li Functies/Acties: zoekfunctie
+                                    li Functies/Acties: nieuwe klant aanmaken
+                                    li Functies/Acties: klantgegevens wijzigen
+
+                    li Epic S2 – Verhuurproces
+                        ul
+                            li Story: Als medewerker wil ik een film kunnen uitlenen aan een klant.
+                                ul
+                                    li Functies/Acties: rental aanmaken (klant + inventory)
+                            li Story: Als medewerker wil ik een film kunnen innemen en eventuele boetes afhandelen.
+                                ul
+                                    li Functies/Acties: return-knop
+                                    li Functies/Acties: boete berekenen of handmatig aanpassen
+
+                    li Epic S3 – Betalingen verwerken
+                        ul
+                            li Story: Als medewerker wil ik betalingen kunnen registreren en een bon/factuur geven.
+                                ul
+                                    li Functies/Acties: betaling registreren
+                                    li Functies/Acties: bon printen/mailen
+                            li Story: Refunds mogelijk maken met een reden.
+                                ul
+                                    li Functies/Acties: refund-knop
+
+                    li Epic S4 – Inventory beheren
+                        ul
+                            li Story: Als medewerker wil ik kunnen aangeven dat een film beschadigd is of niet uitleenbaar is.
+                                ul
+                                    li Functies/Acties: status van inventory aanpassen
+
+            li Admin (beheerder)
+                ul
+                    li Epic A1 – Medewerkers beheren
+                        ul
+                            li Story: Als admin wil ik medewerkers kunnen beheren (aanmaken, wijzigen of verwijderen), zodat ik controle heb over wie er binnen de organisatie actief is.
+                                ul
+                                    li Functies/Acties: overzicht van alle medewerkers
+                                    li Functies/Acties: nieuwe medewerker toevoegen (naam, e-mail, rol staff)
+                                    li Functies/Acties: gegevens van een medewerker wijzigen (bijv. e-mailadres of rol)
+                                    li Functies/Acties: medewerker deactiveren of verwijderen
+
+                    li Epic A2 – Films en categorieën beheren
+                        ul
+                            li Story: Als admin wil ik films en categorieën kunnen beheren, zodat het aanbod altijd up-to-date is.
+                                ul
+                                    li Functies/Acties: overzicht van alle films in het systeem
+                                    li Functies/Acties: nieuwe film toevoegen (titel, beschrijving, taal, rating, categorie)
+                                    li Functies/Acties: gegevens van een film aanpassen
+                                    li Functies/Acties: film deactiveren of verwijderen
+                                    li Functies/Acties: categorieën beheren (aanmaken, wijzigen, verwijderen)
+

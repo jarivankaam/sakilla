@@ -1,0 +1,46 @@
+//- views/home.pug
+extends layout
+
+block content
+  // Hero section
+  .py-5.text-center.bg-light.rounded-3
+    .container
+      h1.display-4.fw-bold Welcome to SakilaHub
+      p.lead Explore the world of movies, actors, and stores with the classic Sakila database.
+      img.img-fluid.rounded.mt-3(
+        src="https://via.placeholder.com/800x300.png?text=Welcome+to+SakilaHub",
+        alt="Cinema banner"
+      )
+      .mt-4
+        a.btn.btn-primary.btn-lg(href="/staff") View Staff
+        a.btn.btn-outline-secondary.btn-lg.ms-2(href="/films") Browse Films
+
+  // Features section
+  .container.my-5
+    h2.h4.mb-4 Features
+    .row.g-4
+      .col-md-4
+        .card.h-100.shadow-sm
+          img.card-img-top(src="https://via.placeholder.com/400x250?text=Movies", alt="Movies")
+          .card-body
+            h5.card-title Movies
+            p.card-text Browse a collection of films with genres, ratings, and release years.
+      .col-md-4
+        .card.h-100.shadow-sm
+          img.card-img-top(src="https://via.placeholder.com/400x250?text=Actors", alt="Actors")
+          .card-body
+            h5.card-title Actors
+            p.card-text Discover the talented actors who bring stories to life on the big screen.
+      .col-md-4
+        .card.h-100.shadow-sm
+          img.card-img-top(src="https://via.placeholder.com/400x250?text=Stores", alt="Stores")
+          .card-body
+            h5.card-title Stores
+            p.card-text Explore where movies are rented and managed across the Sakila stores.
+
+  // Call to action
+  .bg-dark.text-white.text-center.py-5.mt-5.rounded
+    .container
+      h2 Ready to explore?
+      p.mb-4 Dive into the Sakila database demo application and start browsing now.
+      a.btn.btn-light.btn-lg(href="/films") Get Started
