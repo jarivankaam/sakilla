@@ -28,6 +28,13 @@ html
                 a.nav-link(href="/staff") Staff
               li.nav-item
                 a.nav-link(href="/about") About
+                  if currentUser
+                      li.nav-item
+                          form(method='post', action='/auth/logout')
+                              button.btn.btn-outline-danger.btn-sm(type='submit') Uitloggen
+                  else
+                      li.nav-item
+                          a.nav-link(href='/auth/login') Inloggen
 
     // Main content
     main.container.mt-4.mb-4

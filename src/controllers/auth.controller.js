@@ -82,7 +82,6 @@ module.exports = {
 
     // POST /auth/logout
     logout(req, res) {
-
         req.session.destroy(() => {
             res.clearCookie('sid');              // cookie-naam uit je session config
             return res.redirect(303, '/auth/login'); // <-- direct naar /auth/login
