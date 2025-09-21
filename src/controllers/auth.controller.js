@@ -32,7 +32,7 @@ module.exports = {
             values: { username: '' },
             // csrfToken kan in res.locals.csrfToken staan als je csurf gebruikt
         };
-        return res.render('auth/login', model); // <-- map/views/auth/login.jade
+        return res.render('login', model); // <-- map/views/auth/login.jade
     },
 
     // POST /auth/login
