@@ -10,6 +10,9 @@ const express = require("express");
 
 // If you use src/** structure, switch to these and delete the others:
 jest.mock("../../src/services/staff.service");
+jest.mock("../../src/middleware/auth", () => ({
+    requireAuth: (req, res, next) => next(),
+}));
 const staffRoutes = require("../../src/routes/staff");
 const StaffService = require("../../src/services/staff.service");
 
