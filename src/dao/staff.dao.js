@@ -174,6 +174,38 @@ const StaffDao = {
       callback(null, { affectedRows: result.affectedRows });
     });
   },
+    findByUsername(username, callback) {
+        const sql = `
+    SELECT 
+      s.staff_id,
+      s.first_name,
+      s.last_name,
+      s.email,
+      s.store_id,
+      s.active,
+      s.username,
+      s.password
+    FROM ?? s
+    WHERE s.username = ?
+    LIMIT 1
+  `;
+
+        // Callback-variant
+        if (typeof callback === 'function') {
+            return pool.query(sql, [TABLE, username], (err, results) => {
+                if (err) return callback(err);
+                return callback(null, results[0] || null);
+            });
+        }
+
+        // Promise/await-variant
+        return new Promise((resolve, reject) => {
+            pool.query(sql, [TABLE, username], (err, results) => {
+                if (err) return reject(err);
+                resolve(results[0] || null);
+            });
+        });
+    },
 };
 
 module.exports = StaffDao;
