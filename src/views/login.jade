@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    .container.py-5
+        .row.justify-content-center
+            .col-12.col-sm-10.col-md-8.col-lg-5
+                .card.shadow-sm
+                    .card-body.p-4
+                        h1.h4.mb-3.text-center #{title || 'Inloggen'}
+
+                        //- Foutmeldingen (form + veldspecifiek)
+                        if errors && (errors.form || errors.username || errors.password)
+                            .alert.alert-danger(role="alert")
+                                if errors.form
+                                    p.mb-1= errors.form
+                                if errors.username
+                                    p.mb-1= errors.username
+                                if errors.password
+                                    p.mb-0= errors.password
+
+                        form(method="post", action="/auth/login", novalidate)
+                            //- CSRF (indien je csurf gebruikt, bv. res.locals.csrfToken)
+                            if csrfToken
+                                input(type="hidden", name="_csrf", value=csrfToken)
+
+                            .mb-3
+                                label.form-label(for="username") Gebruikersnaam
+                                input#username.form-control(type="text", name="username", required, autocomplete="username", value=(values && values.username) || '')
+                                .form-text Vul je staff gebruikersnaam in.
+
+                            .mb-3
+                                label.form-label(for="password") Wachtwoord
+                                input#password.form-control(type="password", name="password", required, autocomplete="current-password")
+
+                            .d-grid.gap-2
+                                button.btn.btn-primary.btn-lg(type="submit") Inloggen
+
+                        //- Extra links
+                        .mt-3.text-center
+                            a(href="/") ← Terug naar start
