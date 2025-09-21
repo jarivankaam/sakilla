@@ -1,20 +1,19 @@
 // routes/staff.routes.js
 const express = require("express");
 const router = express.Router();
-const staffController = require("../controllers/staff.controller"); // let op pad!
-
+const staffController = require("../controllers/staff.controller");
+const { requireAuth } = require("../middleware/auth");
 
 // GET /staff/:id?
-router.get("/:id?", staffController.get);
+router.get("/:id?", requireAuth, staffController.get);
 
-// POST /staff       -> create
-router.post("/", staffController.create);
+// POST /staff -> create
+router.post("/", requireAuth, staffController.create);
 
-// POST /staff/:id/update  -> update (ipv PUT/PATCH)
-router.post("/:id/update", staffController.update);
+// POST /staff/:id/update -> update
+router.post("/:id/update", requireAuth, staffController.update);
 
-// POST /staff/:id/delete  -> delete (ipv DELETE)
-router.post("/:id/delete", staffController.remove);
-
+// POST /staff/:id/delete -> delete
+router.post("/:id/delete", requireAuth, staffController.remove);
 
 module.exports = router;
