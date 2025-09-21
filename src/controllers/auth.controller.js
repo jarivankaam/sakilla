@@ -3,15 +3,11 @@ const logger = require('../util/logger');
 
 const TAG = '[auth.controller]';
 
-/**
- * Alleen paden toestaan die lokaal zijn (beginnen met "/" maar niet met "//" of "http")
- * Zo voorkom je open redirects.
- */
+/** Alleen lokale redirects toestaan */
 function safeRedirect(res, fallbackPath = '/') {
     return (target) => {
         try {
             if (typeof target !== 'string') return res.redirect(fallbackPath);
-            // alleen relative app paths
             if (target.startsWith('/') && !target.startsWith('//')) {
                 return res.redirect(target);
             }
@@ -21,10 +17,10 @@ function safeRedirect(res, fallbackPath = '/') {
 }
 
 module.exports = {
-    // GET /login
+    // GET /auth/login
     login(req, res) {
 
-        // Optioneel: ?next=/protected/pagina -> bewaar als returnTo
+        // Optioneel: ?next=/protected/pagina
         const next = req.query?.next;
         if (next && !req.session.user) {
             req.session.returnTo = next;
@@ -34,17 +30,16 @@ module.exports = {
             title: 'Staff login',
             errors: null,
             values: { username: '' },
-            // csrfToken staat al in res.locals.csrfToken als je csurf gebruikt
+            // csrfToken kan in res.locals.csrfToken staan als je csurf gebruikt
         };
-        return res.render('login', model);
+        return res.render('auth/login', model); // <-- map/views/auth/login.jade
     },
 
-    // POST /login
+    // POST /auth/login
     postLogin(req, res) {
 
         authService.login(req.body, (err, user) => {
             if (err) {
-                logger.warn(`${TAG} postLogin error`, err);
                 const model = {
                     title: 'Staff login',
                     errors: err.type === 'validation'
@@ -52,39 +47,33 @@ module.exports = {
                         : { form: err.message || 'Login mislukt' },
                     values: { username: req.body?.username || '' },
                 };
-                return res.status(400).render('login', model);
+                return res.status(400).render('auth/login', model); // <-- juiste view pad
             }
 
-            // Session fixation mitigatie: regenereer de sessie-ID vóórdat je user zet
+            // Session fixation mitigatie
             req.session.regenerate((regenErr) => {
                 if (regenErr) {
-                    logger.error(`${TAG} session regenerate failed`, regenErr);
                     return res.status(500).render('errors/500', { title: 'Fout', error: regenErr });
                 }
 
-                // Optioneel: "remember me" -> langere cookie
-                // In je form voeg je bv. <input type="checkbox" name="remember" value="1">
+                // (optioneel) remember me
                 const remember = req.body?.remember === '1' || req.body?.remember === 'on';
                 if (remember) {
-                    // 30 dagen
-                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30; // 30 dagen
                 } else {
-                    // session cookie (tot browser sluit) -> maxAge undefined
                     req.session.cookie.expires = false;
                     req.session.cookie.maxAge = null;
                 }
 
-                // Zet veilige user payload in de sessie
+                // user in sessie
                 req.session.user = user;
 
-                // Return-to afhandelen en verwijderen
+                // Return-to
                 const goto = req.session.returnTo || '/';
                 delete req.session.returnTo;
 
-                // Sla en redirect
                 req.session.save(() => {
-                    // 303: See Other (voorkomt formulier-resubmits)
-                    res.status(303);
+                    res.status(303);                  // See Other
                     return safeRedirect(res, '/')(goto);
                 });
             });
@@ -94,12 +83,9 @@ module.exports = {
     // POST /auth/logout
     logout(req, res) {
 
-        // Alles onder POST houden i.v.m. CSRF-bescherming
         req.session.destroy(() => {
-            // Cookie-naam moet overeenkomen met je session config (name: 'sid')
-            res.clearCookie('sid');
-            // 303 om back/refresh issues te vermijden
-            return res.redirect(303, '/login');
+            res.clearCookie('sid');              // cookie-naam uit je session config
+            return res.redirect(303, '/auth/login'); // <-- direct naar /auth/login
         });
     },
 };
