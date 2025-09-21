@@ -47,7 +47,7 @@ module.exports = {
                         : { form: err.message || 'Login mislukt' },
                     values: { username: req.body?.username || '' },
                 };
-                return res.status(400).render('auth/login', model); // <-- juiste view pad
+                return res.status(400).render('login', model); // <-- juiste view pad
             }
 
             // Session fixation mitigatie
