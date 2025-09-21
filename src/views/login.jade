@@ -18,7 +18,7 @@ block content
                                 if errors.password
                                     p.mb-0= errors.password
 
-                        form(method="post", action="/auth/login", novalidate)
+                        form(method="post", action="login", novalidate)
                             //- CSRF (indien je csurf gebruikt, bv. res.locals.csrfToken)
                             if csrfToken
                                 input(type="hidden", name="_csrf", value=csrfToken)

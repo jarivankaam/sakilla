@@ -21,9 +21,8 @@ function safeRedirect(res, fallbackPath = '/') {
 }
 
 module.exports = {
-    // GET /auth/login
+    // GET /login
     login(req, res) {
-        logger.debug(`${TAG} login`);
 
         // Optioneel: ?next=/protected/pagina -> bewaar als returnTo
         const next = req.query?.next;
@@ -37,12 +36,11 @@ module.exports = {
             values: { username: '' },
             // csrfToken staat al in res.locals.csrfToken als je csurf gebruikt
         };
-        return res.render('auth/login', model);
+        return res.render('login', model);
     },
 
-    // POST /auth/login
+    // POST /login
     postLogin(req, res) {
-        logger.debug(`${TAG} postLogin`);
 
         authService.login(req.body, (err, user) => {
             if (err) {
@@ -54,7 +52,7 @@ module.exports = {
                         : { form: err.message || 'Login mislukt' },
                     values: { username: req.body?.username || '' },
                 };
-                return res.status(400).render('auth/login', model);
+                return res.status(400).render('login', model);
             }
 
             // Session fixation mitigatie: regenereer de sessie-ID vóórdat je user zet
@@ -95,14 +93,13 @@ module.exports = {
 
     // POST /auth/logout
     logout(req, res) {
-        logger.debug(`${TAG} logout`);
 
         // Alles onder POST houden i.v.m. CSRF-bescherming
         req.session.destroy(() => {
             // Cookie-naam moet overeenkomen met je session config (name: 'sid')
             res.clearCookie('sid');
             // 303 om back/refresh issues te vermijden
-            return res.redirect(303, '/auth/login');
+            return res.redirect(303, '/login');
         });
     },
 };
